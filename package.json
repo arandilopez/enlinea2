@@ -63,10 +63,6 @@
     },
     "cordova-plugin-local-notifications-mm",
     "cordova-plugin-zip",
-    {
-      "locator": "https://github.com/phonegap-build/PushPlugin.git",
-      "id": "com.phonegap.plugins.PushPlugin"
-    }
   ],
   "cordovaPlatforms": [
     "android",
