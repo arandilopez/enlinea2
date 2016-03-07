@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<widget id="com.moodle.moodlemobile" version="3.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-  <name>Moodle Mobile</name>
-  <description>Official Moodle Mobile app</description>
+<widget id="mx.uady.matematicas.enlinea2" version="2.9" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+  <name>EnLinea 2</name>
+  <description>Aplicación móvil para EnLinea 2 de la Facultad de Mátematicas UADY</description>
   <author href="http://moodle.com" email="juan@moodle.com">Juan Leyva</author>
   <author href="http://arandilopez.me" email="arandilopez.93@gmail.com">Arandi López</author>
   <content src="index.html"/>
