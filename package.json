@@ -62,8 +62,7 @@
       "id": "ch.ti8m.documenthandler"
     },
     "cordova-plugin-local-notifications-mm",
-    "cordova-plugin-zip",
-    "phonegap-plugin-push"
+    "cordova-plugin-zip"
   ],
   "cordovaPlatforms": [
     "android",
