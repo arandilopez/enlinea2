@@ -155,16 +155,21 @@ angular.module('mm.core.course')
             sizePromise = $mmCoursePrefetchDelegate.getDownloadSize(section.modules, courseid);
         } else {
             var promises = [],
-                size = 0;
+                results = {
+                    size: 0,
+                    total: true
+                };
+
             angular.forEach(sections, function(s) {
                 if (s.id != mmCoreCourseAllSectionsId) {
                     promises.push($mmCoursePrefetchDelegate.getDownloadSize(s.modules, courseid).then(function(sectionsize) {
-                        size = size + sectionsize;
+                        results.total = results.total && sectionsize.total;
+                        results.size += sectionsize.size;
                     }));
                 }
             });
             sizePromise = $q.all(promises).then(function() {
-                return size;
+                return results;
             });
         }
 
@@ -281,6 +286,29 @@ angular.module('mm.core.course')
     };
 
     /**
+     * Given a list of sections, returns the list of modules in the sections.
+     *
+     * @module mm.core.course
+     * @ngdoc method
+     * @name $mmCourseHelper#getSectionsModules
+     * @param  {Object[]} sections Sections.
+     * @return {Object[]}          Modules.
+     */
+    self.getSectionsModules = function(sections) {
+        if (!sections || !sections.length) {
+            return [];
+        }
+
+        var modules = [];
+        sections.forEach(function(section) {
+            if (section.modules) {
+                modules = modules.concat(section.modules);
+            }
+        });
+        return modules;
+    };
+
+    /**
      * Retrieves the courseId of the module and navigates to it.
      *
      * @module mm.core.course
@@ -318,15 +346,27 @@ angular.module('mm.core.course')
             }
 
             return promise.then(function() {
-                return $state.go('redirect', {
-                    siteid: siteId,
-                    state: 'site.mm_course',
-                    params: {
-                        courseid: courseId,
-                        moduleid: moduleId,
-                        sid: sectionId
-                    }
-                });
+                if (courseId == 1) {
+                    // It's front page we go directly to course section.
+                    return $state.go('redirect', {
+                        siteid: siteId,
+                        state: 'site.mm_course-section',
+                        params: {
+                            cid: courseId,
+                            mid: moduleId
+                        }
+                    });
+                } else {
+                    return $state.go('redirect', {
+                        siteid: siteId,
+                        state: 'site.mm_course',
+                        params: {
+                            courseid: courseId,
+                            moduleid: moduleId,
+                            sid: sectionId
+                        }
+                    });
+                }
             });
         }).catch(function(error) {
             if (error) {
@@ -383,11 +423,12 @@ angular.module('mm.core.course')
      * @module mm.core.course
      * @ngdoc method
      * @name $mmCourseHelper#prefetchModule
-     * @param  {Object} scope    Scope.
-     * @param  {Object} service  Service implementing 'invalidateContent' and 'prefetchContent'.
-     * @param  {Object} module   Module to download.
-     * @param  {Number} size     Size of the module.
-     * @param  {Boolean} refresh True if refreshing, false otherwise.
+     * @param  {Object}         scope    Scope.
+     * @param  {Object}         service  Service implementing 'invalidateContent' and 'prefetchContent'.
+     * @param  {Object}         module   Module to download.
+     * @param  {Object|Number}  size     Containing size to download (in bytes) and a boolean to indicate if its totaly or
+     *                                   partialy calculated.
+     * @param  {Boolean}        refresh True if refreshing, false otherwise.
      * @return {Promise}         Promise resolved when downloaded.
      */
     self.prefetchModule = function(scope, service, module, size, refresh) {

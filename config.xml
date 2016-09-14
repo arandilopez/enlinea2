@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<widget id="mx.uady.matematicas.intranet.enlinea2" version="3.1.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="mx.uady.matematicas.intranet.enlinea2" version="3.1.2" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
   <name>EnLínea2</name>
   <description>Aplicación móvil para EnLinea 2 de la Facultad de Mátematicas UADY</description>
   <author href="http://moodle.com" email="juan@moodle.com">Juan Leyva</author>
-  <author href="http://arandilopez.me" email="arandilopez.93@gmail.com">Arandi López</author>
+  <author href="http://arandilopez.me" email="arandi.lopez@correo.uady.mx">Arandi López</author>
   <content src="index.html"/>
   <access origin="*"/>
   <allow-navigation href="cdvfile:*" />

@@ -21,17 +21,26 @@ angular.module('mm.addons.mod_url')
  * @ngdoc controller
  * @name mmaModUrlIndexCtrl
  */
-.controller('mmaModUrlIndexCtrl', function($scope, $stateParams, $mmaModUrl, $mmCourse) {
+.controller('mmaModUrlIndexCtrl', function($scope, $stateParams, $mmaModUrl, $mmCourse, $mmText, $translate, mmaModUrlComponent) {
     var module = $stateParams.module || {},
         courseid = $stateParams.courseid;
+
     $scope.title = module.name;
     $scope.description = module.description;
+    $scope.moduleUrl = module.url;
     $scope.url = (module.contents && module.contents[0] && module.contents[0].fileurl) ? module.contents[0].fileurl : undefined;
+    $scope.component = mmaModUrlComponent;
+    $scope.componentId = module.id;
 
     $scope.go = function() {
         $mmaModUrl.logView(module.instance).then(function() {
             $mmCourse.checkModuleCompletion(courseid, module.completionstatus);
         });
         $mmaModUrl.open($scope.url);
+    };
+
+    // Context Menu Description action.
+    $scope.expandDescription = function() {
+        $mmText.expandText($translate.instant('mm.core.description'), $scope.description, false, mmaModUrlComponent, module.id);
     };
 });
